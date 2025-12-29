@@ -1,0 +1,83 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+/* Variables CSS personalizadas para el tema BeKind */
+:root {
+  --color-primary: #1e3a5f;
+  --color-primary-light: #2d4a6f;
+  --color-secondary: #f5c542;
+  --color-background: #f8f9fa;
+  --color-white: #ffffff;
+  --color-text: #333333;
+  --color-text-light: #6b7280;
+  --color-border: #e5e7eb;
+  --color-error: #ef4444;
+  --color-success: #22c55e;
+}
+
+/* Estilos base */
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--color-background);
+  color: var(--color-text);
+}
+
+/* Clase para el fondo decorativo del login */
+.login-background {
+  background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.login-background::before {
+  content: '';
+  position: absolute;
+  top: -10%;
+  left: -10%;
+  width: 300px;
+  height: 300px;
+  background: rgba(245, 197, 66, 0.3);
+  border-radius: 50%;
+}
+
+.login-background::after {
+  content: '';
+  position: absolute;
+  bottom: -10%;
+  right: -5%;
+  width: 400px;
+  height: 400px;
+  background: rgba(255, 182, 193, 0.3);
+  border-radius: 50%;
+}
+
+/* Círculo adicional verde */
+.circle-green {
+  position: absolute;
+  top: 20%;
+  right: 10%;
+  width: 200px;
+  height: 200px;
+  background: rgba(134, 239, 172, 0.3);
+  border-radius: 50%;
+}
+
+/* Scrollbar personalizado */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a1a1a1;
+}
