@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Filter, Plus } from 'lucide-react';
 import { DashboardLayout } from '../components/layout';
-import { Button, SearchInput, Pagination, Alert } from '../components/ui';
+import { Button, SearchInput, Pagination } from '../components/ui';
 import { ActionsTable, CreateActionModal } from '../components/forms';
-import { useActionsStore } from '../context';
+import { useActionsStore, useToastStore } from '../context';
 
 /**
  * Tabs disponibles en el dashboard
@@ -23,7 +23,7 @@ const DashboardPage = () => {
   const [activeTab, setActiveTab] = useState('categorias');
   const [searchTerm, setSearchTerm] = useState('');
 
-  // Estado global del store
+  // Estado global del store de acciones
   const {
     actions,
     isLoading,
@@ -40,21 +40,21 @@ const DashboardPage = () => {
     clearCreateStatus,
   } = useActionsStore();
 
+  // Store de toasts
+  const { showToast } = useToastStore();
+
   // Cargar acciones al montar el componente
   useEffect(() => {
     fetchActions();
   }, [fetchActions]);
 
-  // Limpiar mensaje de éxito después de mostrarlo
+  // Mostrar toast de éxito al crear
   useEffect(() => {
     if (createSuccess) {
-      const timer = setTimeout(() => {
-        clearCreateStatus();
-      }, 3000);
-      return () => clearTimeout(timer);
+      showToast('¡Acción creada exitosamente!', 'success');
+      clearCreateStatus();
     }
-  }, [createSuccess, clearCreateStatus]);
-
+  }, [createSuccess, clearCreateStatus, showToast]);
   /**
    * Filtra las acciones según el término de búsqueda
    */
@@ -73,15 +73,6 @@ const DashboardPage = () => {
         <div>
           <h1 className="text-2xl font-bold text-[#1e3a5f]">Acciones</h1>
         </div>
-
-        {/* Mensaje de éxito */}
-        {createSuccess && (
-          <Alert
-            type="success"
-            message="¡Acción creada exitosamente!"
-            onClose={clearCreateStatus}
-          />
-        )}
 
         {/* Tabs */}
         <div className="border-b border-gray-200">
@@ -132,9 +123,6 @@ const DashboardPage = () => {
           actions={filteredActions}
           isLoading={isLoading}
           error={error}
-          onEdit={(action) => console.log('Editar:', action)}
-          onDuplicate={(action) => console.log('Duplicar:', action)}
-          onDelete={(action) => console.log('Eliminar:', action)}
         />
 
         {/* Paginación */}

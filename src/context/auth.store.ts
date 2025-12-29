@@ -39,13 +39,13 @@ export const useAuthStore = create<AuthState>((set) => ({
    */
   login: async (credentials: LoginCredentials): Promise<boolean> => {
     set({ isLoading: true, error: null });
-    
+
     try {
       const response = await authService.login(credentials);
-      
+
       // Guardamos el token (ajustar según la estructura de respuesta del API)
       const token = response.token || (response as unknown as string);
-      
+
       if (token) {
         authService.setToken(token);
         set({
@@ -59,11 +59,11 @@ export const useAuthStore = create<AuthState>((set) => ({
         throw new Error('No se recibió token del servidor');
       }
     } catch (error: unknown) {
-      const errorMessage = 
-        error instanceof Error 
-          ? error.message 
+      const errorMessage =
+        error instanceof Error
+          ? error.message
           : 'Error al iniciar sesión. Verifica tus credenciales.';
-      
+
       set({
         isLoading: false,
         error: errorMessage,

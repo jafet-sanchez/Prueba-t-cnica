@@ -6,16 +6,16 @@ Aplicación web construida con React + TypeScript que implementa autenticación,
 
 | Tecnología | Versión | Propósito |
 |------------|---------|-----------|
-| React | 18.x | Framework principal |
+| React | 19.x | Framework principal |
 | TypeScript | 5.x | Tipado estático |
 | Vite | 7.x | Build tool y dev server |
 | Zustand | 5.x | Manejo de estado global |
 | React Hook Form | 7.x | Manejo de formularios |
-| Zod | 3.x | Validación de esquemas |
+| Zod | 4.x | Validación de esquemas |
 | Axios | 1.x | Cliente HTTP |
 | React Router DOM | 7.x | Enrutamiento |
 | Tailwind CSS | 4.x | Estilos |
-| Lucide React | - | Iconos |
+| Lucide React | 0.x | Iconos |
 
 ## 📁 Estructura del Proyecto
 
@@ -41,7 +41,9 @@ src/
 │   │   ├── Loader.tsx      # Spinner de carga
 │   │   ├── SearchInput.tsx # Input de búsqueda
 │   │   ├── EmptyState.tsx  # Estado vacío
-│   │   └── Logo.tsx        # Logo reutilizable
+│   │   ├── Logo.tsx        # Logo reutilizable
+│   │   ├── Toast.tsx       # Notificación individual
+│   │   └── ToastContainer.tsx # Contenedor de notificaciones
 │   ├── layout/             # Componentes de layout
 │   │   ├── Sidebar.tsx     # Menú lateral
 │   │   ├── Header.tsx      # Header con ondas decorativas
@@ -51,7 +53,8 @@ src/
 │       └── CreateActionModal.tsx # Modal de crear acción
 ├── context/                # Stores de Zustand
 │   ├── auth.store.ts       # Estado de autenticación
-│   └── actions.store.ts    # Estado de acciones
+│   ├── actions.store.ts    # Estado de acciones
+│   └── toast.store.ts      # Sistema de notificaciones
 ├── pages/                  # Páginas de la aplicación
 │   ├── LoginPage.tsx
 │   └── DashboardPage.tsx
@@ -287,6 +290,44 @@ Si por alguna razón no se pudiera implementar el upload (ej: CORS, permisos), l
 | `SearchInput` | Input con icono de búsqueda |
 | `EmptyState` | Mensaje cuando no hay datos |
 | `Logo` | Logo reutilizable con variantes (light/dark) |
+| `Toast` | Notificaciones temporales (success, error, warning, info) |
+| `ToastContainer` | Contenedor para renderizar múltiples notificaciones |
+
+---
+
+## 🔔 Sistema de Notificaciones (Toast)
+
+La aplicación incluye un sistema completo de notificaciones toast para feedback visual al usuario:
+
+### Características
+
+- **Toast Store**: Gestión global de notificaciones con Zustand (`toast.store.ts`)
+- **Tipos de notificación**: success, error, warning, info
+- **Auto-cierre configurable**: Duración personalizable por notificación
+- **Múltiples notificaciones**: Soporte para mostrar varias notificaciones simultáneas
+- **Métodos de conveniencia**: `success()`, `error()`, `warning()`, `info()`
+
+### Uso
+
+```typescript
+import { useToastStore } from '@/context/toast.store';
+
+const { success, error, warning, info } = useToastStore();
+
+// Mostrar notificaciones
+success('Acción creada exitosamente');
+error('Error al guardar los datos');
+warning('Advertencia: el archivo es muy grande');
+info('Información importante');
+
+// Con duración personalizada
+showToast('Mensaje personalizado', 'success', 5000);
+```
+
+### Componentes
+
+- `Toast.tsx`: Componente individual de notificación
+- `ToastContainer.tsx`: Contenedor renderizado en App.tsx
 
 ---
 
@@ -312,8 +353,134 @@ La aplicación es responsive y se adapta a diferentes tamaños de pantalla utili
 
 ---
 
+## ⚡ Optimizaciones de Rendimiento
+
+### Lazy Loading de Páginas
+
+El proyecto implementa **code-splitting** con lazy loading para mejorar el rendimiento inicial:
+
+```typescript
+// routes/index.tsx
+const LoginPage = lazy(() => import('@/pages/LoginPage'));
+const DashboardPage = lazy(() => import('@/pages/DashboardPage'));
+```
+
+**Beneficios:**
+- Reduce el tamaño del bundle inicial
+- Carga las páginas solo cuando son necesarias
+- Mejora el tiempo de First Contentful Paint (FCP)
+- Utiliza `React.Suspense` para manejar el estado de carga
+
+### Otras Optimizaciones
+
+- **Zustand**: State management ligero (~1KB vs ~40KB de Redux)
+- **React Hook Form**: Minimiza re-renders en formularios
+- **Vite**: Build ultra-rápido con Hot Module Replacement (HMR)
+- **Tailwind CSS**: Eliminación automática de CSS no utilizado (purge)
+
+---
+
 ## 🧪 Testing
 
-Ver archivo `QA_CHECKLIST.md` para las pruebas funcionales del flujo completo.
+El proyecto incluye un plan completo de pruebas funcionales documentado en **`QA_CHECKLIST.md`**:
 
+- Pruebas del módulo de autenticación (login, logout, sesión)
+- Pruebas del dashboard (navegación, datos, interfaz)
+- Pruebas del módulo de acciones (crear, listar, paginación, búsqueda)
+- Casos de uso positivos y negativos
+- Validaciones de formularios
+- Manejo de errores
+
+---
+
+## 📋 Archivos de Configuración
+
+El proyecto incluye los siguientes archivos de configuración:
+
+| Archivo | Descripción |
+|---------|-------------|
+| `vite.config.ts` | Configuración de Vite (build tool, dev server, alias @) |
+| `tsconfig.json` | Configuración principal de TypeScript |
+| `tsconfig.app.json` | Configuración TypeScript para la aplicación |
+| `tsconfig.node.json` | Configuración TypeScript para scripts Node.js |
+| `eslint.config.js` | Reglas de ESLint para calidad de código |
+| `tailwind.config.js` | Configuración de Tailwind CSS (incluido en vite.config.ts) |
+| `.env` | Variables de entorno (URLs de API) |
+| `.gitignore` | Archivos excluidos de Git |
+| `package.json` | Dependencias y scripts del proyecto |
+| `QA_CHECKLIST.md` | Plan de pruebas funcionales |
+
+### Variables de Entorno
+
+El proyecto usa las siguientes variables en `.env`:
+
+```bash
+VITE_API_AUTH_URL=https://dev.apinetbo.bekindnetwork.com
+VITE_API_BASE_URL=https://dev.api.bekindnetwork.com
+```
+
+---
+
+## 🚧 Posibles Mejoras Futuras
+
+El proyecto está completo y funcional, pero existen oportunidades para expansión:
+
+### Testing Automatizado
+
+- **Unit Tests**: Implementar tests con Vitest o Jest para componentes y funciones
+- **Integration Tests**: Probar flujos completos de usuario
+- **E2E Tests**: Cypress o Playwright para testing end-to-end
+
+### Custom Hooks
+
+El directorio `src/hooks/` está preparado para hooks personalizados reutilizables:
+
+- `useDebounce`: Para optimizar búsquedas en tiempo real
+- `useLocalStorage`: Persistencia de datos en localStorage
+- `useMediaQuery`: Detección de breakpoints responsive
+- `usePagination`: Lógica de paginación reutilizable
+
+### Utilidades
+
+El directorio `src/utils/` puede contener funciones auxiliares:
+
+- Formatters (fechas, moneda, números)
+- Validators (email, teléfono, etc.)
+- Helpers (string manipulation, array operations)
+- Constants (códigos de estado, mensajes de error)
+
+### Funcionalidades Adicionales
+
+- **Editar acciones**: Modal para actualizar acciones existentes
+- **Eliminar acciones**: Con confirmación
+- **Filtros avanzados**: Por estado, fecha, color
+- **Exportar datos**: CSV, Excel, PDF
+- **Modo oscuro**: Toggle para tema dark/light
+- **Internacionalización (i18n)**: Soporte multi-idioma
+- **PWA**: Convertir en Progressive Web App
+- **Analytics**: Integración con Google Analytics o similar
+
+### Mejoras de UX
+
+- **Skeleton loaders**: En lugar de spinner fullscreen
+- **Infinite scroll**: Alternativa a paginación tradicional
+- **Drag & drop**: Para reordenar acciones
+- **Búsqueda avanzada**: Con filtros combinados
+- **Temas personalizables**: Más allá de dark/light
+
+---
+
+## 📝 Notas Finales
+
+Este proyecto demuestra:
+
+- ✅ Arquitectura escalable y mantenible
+- ✅ Código limpio y bien organizado
+- ✅ Tipado completo con TypeScript
+- ✅ Componentes reutilizables y modulares
+- ✅ Manejo profesional de estados y efectos
+- ✅ Gestión eficiente de APIs y errores
+- ✅ UI/UX moderna y responsive
+- ✅ Optimizaciones de rendimiento
+- ✅ Documentación completa y detallada
 ---

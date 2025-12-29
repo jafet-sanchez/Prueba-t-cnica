@@ -148,7 +148,7 @@ export const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
               type="button"
               onClick={handleRemove}
               className="p-1 text-gray-400 hover:text-red-500 hover:bg-red-50 
-                         rounded-lg transition-colors"
+                      rounded-lg transition-colors"
             >
               <X className="w-5 h-5" />
             </button>

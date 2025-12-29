@@ -14,13 +14,13 @@ interface ActionsState {
   pageSize: number;
   isLoading: boolean;
   error: string | null;
-  
-  // Estado del modal
+
+  // Estado del modal de crear
   isModalOpen: boolean;
   isCreating: boolean;
   createError: string | null;
   createSuccess: boolean;
-  
+
   // Acciones
   fetchActions: (params?: PaginationParams) => Promise<void>;
   createAction: (data: ActionFormData) => Promise<boolean>;
@@ -44,8 +44,8 @@ export const useActionsStore = create<ActionsState>((set, get) => ({
   pageSize: 10,
   isLoading: false,
   error: null,
-  
-  // Estado del modal
+
+  // Estado del modal de crear
   isModalOpen: false,
   isCreating: false,
   createError: null,

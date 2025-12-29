@@ -1,19 +1,28 @@
 import axios, { type AxiosError, type InternalAxiosRequestConfig } from 'axios';
 
+/**
+ * Configuración de URLs desde variables de entorno
+ * Fallback a URLs de desarrollo si no están definidas
+ */
+const AUTH_API_URL = import.meta.env.VITE_AUTH_API_URL || 'https://dev.apinetbo.bekindnetwork.com';
+const API_URL = import.meta.env.VITE_API_URL || 'https://dev.api.bekindnetwork.com';
+
 // Cliente para autenticación (subdominio diferente)
 export const authApi = axios.create({
-  baseURL: 'https://dev.apinetbo.bekindnetwork.com',
+  baseURL: AUTH_API_URL,
   headers: {
     'Content-Type': 'application/json',
   },
+  timeout: 30000, // 30 segundos
 });
 
 // Cliente para las demás operaciones (acciones)
 export const api = axios.create({
-  baseURL: 'https://dev.api.bekindnetwork.com',
+  baseURL: API_URL,
   headers: {
     'Content-Type': 'application/json',
   },
+  timeout: 30000, // 30 segundos
 });
 
 // Función para obtener el token del localStorage

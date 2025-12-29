@@ -14,3 +14,5 @@ export { Textarea } from './Textarea';
 export { Toggle } from './Toggle';
 export { FileUpload } from './FileUpload';
 export { ColorInput } from './ColorInput';
+export { Toast } from './Toast';
+export { ToastContainer } from './ToastContainer';

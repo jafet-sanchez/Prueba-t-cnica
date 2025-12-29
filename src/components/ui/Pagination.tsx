@@ -43,7 +43,7 @@ export const Pagination = ({
           value={pageSize}
           onChange={(e) => onPageSizeChange(Number(e.target.value))}
           className="border border-gray-300 rounded-md px-2 py-1 text-sm
-                     focus:outline-none focus:ring-2 focus:ring-[#1e3a5f] focus:border-transparent"
+                  focus:outline-none focus:ring-2 focus:ring-[#1e3a5f] focus:border-transparent"
         >
           {pageSizeOptions.map((size) => (
             <option key={size} value={size}>
@@ -65,7 +65,7 @@ export const Pagination = ({
           onClick={() => onPageChange(1)}
           disabled={isFirstPage}
           className="p-1.5 rounded-md hover:bg-gray-100 disabled:opacity-50 
-                     disabled:cursor-not-allowed transition-colors"
+                  disabled:cursor-not-allowed transition-colors"
           aria-label="Primera página"
         >
           <ChevronsLeft className="w-4 h-4 text-gray-600" />
@@ -76,7 +76,7 @@ export const Pagination = ({
           onClick={() => onPageChange(currentPage - 1)}
           disabled={isFirstPage}
           className="p-1.5 rounded-md hover:bg-gray-100 disabled:opacity-50 
-                     disabled:cursor-not-allowed transition-colors"
+                  disabled:cursor-not-allowed transition-colors"
           aria-label="Página anterior"
         >
           <ChevronLeft className="w-4 h-4 text-gray-600" />
@@ -92,7 +92,7 @@ export const Pagination = ({
           onClick={() => onPageChange(currentPage + 1)}
           disabled={isLastPage}
           className="p-1.5 rounded-md hover:bg-gray-100 disabled:opacity-50 
-                     disabled:cursor-not-allowed transition-colors"
+                  disabled:cursor-not-allowed transition-colors"
           aria-label="Página siguiente"
         >
           <ChevronRight className="w-4 h-4 text-gray-600" />
@@ -103,7 +103,7 @@ export const Pagination = ({
           onClick={() => onPageChange(totalPages)}
           disabled={isLastPage}
           className="p-1.5 rounded-md hover:bg-gray-100 disabled:opacity-50 
-                     disabled:cursor-not-allowed transition-colors"
+                  disabled:cursor-not-allowed transition-colors"
           aria-label="Última página"
         >
           <ChevronsRight className="w-4 h-4 text-gray-600" />
