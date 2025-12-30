@@ -3,10 +3,38 @@ import type { Action, ActionFormData, PaginationParams } from '../types';
 import { AxiosError } from 'axios';
 
 /**
- * Tipo genérico para respuesta del API
- * El API puede devolver diferentes estructuras
+ * Estructura anidada del API con paginación
  */
-type ApiResponse = any;
+interface ApiNestedResponse {
+  data: {
+    data: Action[];
+    totalElements: number;
+    totalPages: number;
+    pageNumber: number;
+  };
+}
+
+/**
+ * Estructura plana del API con paginación
+ */
+interface ApiFlatResponse {
+  data: Action[];
+  totalElements?: number;
+  totalCount?: number;
+  totalPages?: number;
+  pageNumber?: number;
+}
+
+/**
+ * Respuesta simple como array
+ */
+type ApiArrayResponse = Action[];
+
+/**
+ * Tipos posibles de respuesta del API
+ * El API puede devolver diferentes estructuras según el endpoint
+ */
+type ApiResponse = ApiNestedResponse | ApiFlatResponse | ApiArrayResponse;
 
 /**
  * Servicio para gestionar las Acciones
@@ -57,12 +85,6 @@ export const actionsService = {
         formData.append('icon', data.logo);
       }
 
-      // Log para debug
-      console.log('Creating action with payload:');
-      formData.forEach((value, key) => {
-        console.log(`  ${key}:`, value);
-      });
-
       const response = await api.post<Action>(
         '/api/v1/actions/admin-add',
         formData,
@@ -72,15 +94,11 @@ export const actionsService = {
           },
         }
       );
-      
-      console.log('Action created successfully:', response.data);
+
       return response.data;
     } catch (error) {
       // Capturar el error real del API
       if (error instanceof AxiosError && error.response) {
-        console.error('API Error Response:', error.response.data);
-        console.error('API Error Status:', error.response.status);
-        
         // Extraer mensaje de error del API
         const apiError = error.response.data;
         let errorMessage = `Error ${error.response.status}`;
@@ -103,16 +121,6 @@ export const actionsService = {
       }
       throw error;
     }
-  },
-
-  /**
-   * Obtiene una acción por su ID
-   * @param id - ID de la acción
-   * @returns La acción encontrada
-   */
-  getById: async (id: string | number): Promise<Action> => {
-    const response = await api.get<Action>(`/api/v1/actions/${id}`);
-    return response.data;
   },
 };
 

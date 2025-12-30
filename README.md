@@ -421,55 +421,6 @@ VITE_API_BASE_URL=https://dev.api.bekindnetwork.com
 
 ---
 
-## 🚧 Posibles Mejoras Futuras
-
-El proyecto está completo y funcional, pero existen oportunidades para expansión:
-
-### Testing Automatizado
-
-- **Unit Tests**: Implementar tests con Vitest o Jest para componentes y funciones
-- **Integration Tests**: Probar flujos completos de usuario
-- **E2E Tests**: Cypress o Playwright para testing end-to-end
-
-### Custom Hooks
-
-El directorio `src/hooks/` está preparado para hooks personalizados reutilizables:
-
-- `useDebounce`: Para optimizar búsquedas en tiempo real
-- `useLocalStorage`: Persistencia de datos en localStorage
-- `useMediaQuery`: Detección de breakpoints responsive
-- `usePagination`: Lógica de paginación reutilizable
-
-### Utilidades
-
-El directorio `src/utils/` puede contener funciones auxiliares:
-
-- Formatters (fechas, moneda, números)
-- Validators (email, teléfono, etc.)
-- Helpers (string manipulation, array operations)
-- Constants (códigos de estado, mensajes de error)
-
-### Funcionalidades Adicionales
-
-- **Editar acciones**: Modal para actualizar acciones existentes
-- **Eliminar acciones**: Con confirmación
-- **Filtros avanzados**: Por estado, fecha, color
-- **Exportar datos**: CSV, Excel, PDF
-- **Modo oscuro**: Toggle para tema dark/light
-- **Internacionalización (i18n)**: Soporte multi-idioma
-- **PWA**: Convertir en Progressive Web App
-- **Analytics**: Integración con Google Analytics o similar
-
-### Mejoras de UX
-
-- **Skeleton loaders**: En lugar de spinner fullscreen
-- **Infinite scroll**: Alternativa a paginación tradicional
-- **Drag & drop**: Para reordenar acciones
-- **Búsqueda avanzada**: Con filtros combinados
-- **Temas personalizables**: Más allá de dark/light
-
----
-
 ## 📝 Notas Finales
 
 Este proyecto demuestra:
